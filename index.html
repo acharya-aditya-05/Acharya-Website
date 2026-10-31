@@ -4155,6 +4155,71 @@ main > .about .about-copy {
 .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
 @media(max-width:700px){ .top-pick{top:12px;left:12px;font-size:9px}.thumbnail-play{width:52px;height:52px}.video-modal{padding:16px}.video-modal-top{font-size:10px} }
 
+
+
+/* ACHARYA ARCHIVE — true 16:9 landscape cards */
+main > .work-scroll .work-track .project {
+  flex: 0 0 min(82vw, 1120px);
+  width: min(82vw, 1120px);
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+main > .work-scroll .project-art { position: absolute; inset: 0; }
+main > .work-scroll .project-info { z-index: 4; }
+@media (max-width: 700px) {
+  main > .work-scroll .work-track .project {
+    flex-basis: 91vw;
+    width: 91vw;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ACHARYA custom cursor — desktop/fine pointer only */
+@media (hover: hover) and (pointer: fine) {
+  body.acharya-cursor-active,
+  body.acharya-cursor-active a,
+  body.acharya-cursor-active button,
+  body.acharya-cursor-active .video-card { cursor: none !important; }
+  .acharya-cursor {
+    position: fixed; left: 0; top: 0; z-index: 30001;
+    width: 12px; height: 12px; border: 2px solid #ed0808;
+    border-radius: 50%; background: #f2eee6;
+    pointer-events: none; opacity: 0; transform: translate(-50%,-50%);
+    transition: width .22s ease, height .22s ease, background .22s ease,
+      border-color .22s ease, opacity .2s ease, border-radius .22s ease;
+    mix-blend-mode: difference;
+  }
+  .acharya-cursor.is-visible { opacity: 1; }
+  .acharya-cursor.is-view {
+    width: 76px; height: 76px; border-color: #ed0808;
+    background: #ed0808; mix-blend-mode: normal;
+  }
+  .acharya-cursor::after {
+    content: 'VIEW'; position: absolute; inset: 0; display: grid; place-items: center;
+    color: #050505; font: 900 10px 'Barlow Condensed', sans-serif;
+    letter-spacing: 1.5px; opacity: 0; transform: scale(.7);
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .acharya-cursor.is-view::after { opacity: 1; transform: scale(1); }
+  .acharya-cursor.is-link { width: 34px; height: 34px; background: #ed0808; border-color: #f2eee6; }
+  .acharya-cursor.is-click { width: 94px; height: 94px; opacity: .65; }
+  .acharya-cursor-trail {
+    position: fixed; left: 0; top: 0; z-index: 30000;
+    width: 34px; height: 34px; border: 1px solid rgba(237,8,8,.62);
+    border-radius: 50%; pointer-events: none; opacity: 0;
+    transform: translate(-50%,-50%); transition: opacity .25s ease;
+  }
+  .acharya-cursor-trail.is-visible { opacity: 1; }
+  .acharya-magnetic { display: inline-flex; }
+}
+@media (hover: none), (pointer: coarse) {
+  .acharya-cursor, .acharya-cursor-trail { display: none !important; }
+}
+
 </style>
 </head>
 
@@ -5121,6 +5186,68 @@ document.addEventListener("DOMContentLoaded", function () {
   close.addEventListener('click',closeVideo);
   modal.addEventListener('click',e=>{if(e.target===modal)closeVideo();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))closeVideo();});
+})();
+</script>
+
+
+
+<script>
+/* ACHARYA custom cursor + subtle magnetic interactions */
+(() => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const dot = document.createElement('div');
+  const trail = document.createElement('div');
+  dot.className = 'acharya-cursor';
+  trail.className = 'acharya-cursor-trail';
+  dot.setAttribute('aria-hidden', 'true');
+  trail.setAttribute('aria-hidden', 'true');
+  document.body.append(trail, dot);
+  document.body.classList.add('acharya-cursor-active');
+
+  let x = innerWidth / 2, y = innerHeight / 2;
+  let tx = x, ty = y, raf = 0;
+  const move = (e) => {
+    x = e.clientX; y = e.clientY;
+    dot.style.left = x + 'px'; dot.style.top = y + 'px';
+    dot.classList.add('is-visible'); trail.classList.add('is-visible');
+    if (!raf) raf = requestAnimationFrame(animateTrail);
+  };
+  function animateTrail() {
+    tx += (x - tx) * .19; ty += (y - ty) * .19;
+    trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
+    if (Math.abs(x - tx) + Math.abs(y - ty) > .5) raf = requestAnimationFrame(animateTrail);
+    else raf = 0;
+  }
+  document.addEventListener('pointermove', move, { passive: true });
+  document.addEventListener('pointerover', (e) => {
+    const card = e.target.closest('.video-card');
+    const link = e.target.closest('a, button, [role="button"]');
+    dot.classList.toggle('is-view', !!card);
+    dot.classList.toggle('is-link', !!link && !card);
+  });
+  document.addEventListener('pointerout', (e) => {
+    if (!e.relatedTarget) { dot.classList.remove('is-visible','is-view','is-link'); trail.classList.remove('is-visible'); }
+  });
+  document.addEventListener('pointerdown', () => {
+    dot.classList.add('is-click');
+    setTimeout(() => dot.classList.remove('is-click'), 180);
+  });
+  document.addEventListener('mouseleave', () => {
+    dot.classList.remove('is-visible','is-view','is-link');
+    trail.classList.remove('is-visible');
+  });
+
+  // Restrained magnetic movement for prominent buttons/links; no layout changes.
+  document.querySelectorAll('a, button').forEach((el) => {
+    if (el.closest('.video-modal')) return;
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) * .07;
+      const dy = (e.clientY - (r.top + r.height / 2)) * .07;
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+  });
 })();
 </script>
 
