@@ -4486,6 +4486,93 @@ main > .work-scroll .work-heading > p { color: rgba(255,255,255,.72) !important;
   .archive-title-item, .archive-entry .video-card { transition: none !important; }
 }
 
+
+/* === ARCHIVE CLEANUP: remove scanline and center/lift the featured card === */
+/* The fixed global scanline was drawing the thin dark horizontal band across the archive. */
+.scanline { display: none !important; }
+
+main > .work-scroll {
+  position: relative !important;
+  overflow: clip !important;
+}
+main > .work-scroll .work-sticky {
+  position: sticky !important;
+  isolation: isolate !important;
+}
+.archive-stage {
+  position: relative !important;
+  width: min(94vw, 1680px) !important;
+  height: 77vh !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+.archive-title-rail {
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  width: min(25vw, 390px) !important;
+  height: 76% !important;
+  padding: 0 !important;
+  transform: translateY(-50%) !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  z-index: 3 !important;
+  background: transparent !important;
+}
+.archive-card-column {
+  position: absolute !important;
+  left: 50% !important;
+  top: 42% !important;
+  width: min(64vw, 1120px) !important;
+  height: 70vh !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 0 !important;
+}
+.archive-entry {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.archive-entry .video-card {
+  width: 100% !important;
+  max-height: 68vh !important;
+  transform: translateY(3vh) scale(.72) !important;
+}
+.archive-entry.is-active .video-card {
+  transform: translateY(-1vh) scale(1) !important;
+}
+@media (max-width: 760px) {
+  .archive-stage {
+    width: 88vw !important;
+    height: auto !important;
+    min-height: 78svh !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .archive-title-rail {
+    position: sticky !important;
+    left: auto !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+  }
+  .archive-card-column {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: 54svh !important;
+    transform: none !important;
+  }
+  .archive-entry .video-card,
+  .archive-entry.is-active .video-card {
+    transform: none !important;
+  }
+}
+
 </style>
 </head>
 
