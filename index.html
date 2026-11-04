@@ -4359,6 +4359,133 @@ main > .work-scroll .project-info { z-index: 4; }
   .archive-title-item, .archive-entry .video-card { transition: none !important; }
 }
 
+
+
+/* === ARCHIVE REVISION: black/white, larger type, scroll-stepped zoom cards === */
+html, body { background: #050505; }
+main > .work-scroll {
+  position: relative !important;
+  height: calc(var(--archive-count, 1) * 100vh) !important;
+  min-height: 100vh !important;
+  padding: 0 !important;
+  overflow: clip !important;
+  background: #050505 !important;
+  color: #fff !important;
+}
+main > .work-scroll::before { display: none !important; }
+main > .work-scroll .work-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  padding: clamp(34px, 5vh, 64px) 0 3vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+  background: #050505 !important;
+}
+main > .work-scroll .work-heading {
+  width: min(90vw, 1500px) !important;
+  margin: 0 auto 2vh !important;
+  color: #fff !important;
+  align-items: end !important;
+}
+main > .work-scroll .work-heading h2 {
+  color: #fff !important;
+  font-size: clamp(54px, 8.5vw, 142px) !important;
+  line-height: .86 !important;
+  letter-spacing: -.045em !important;
+}
+main > .work-scroll .work-heading .section-kicker,
+main > .work-scroll .work-heading > p { color: rgba(255,255,255,.72) !important; }
+.archive-stage {
+  width: min(90vw, 1500px) !important;
+  height: 77vh !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(280px, .78fr) minmax(0, 1.55fr) !important;
+  gap: clamp(28px, 5vw, 90px) !important;
+  align-items: center !important;
+}
+.archive-title-rail {
+  position: relative !important;
+  top: auto !important;
+  height: 100% !important;
+  padding: 2vh 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: clamp(10px, 1.8vh, 22px) !important;
+  overflow: hidden !important;
+}
+.archive-title-item {
+  color: rgba(255,255,255,.34) !important;
+  font-size: clamp(25px, 3vw, 48px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.035em !important;
+  filter: blur(3px) !important;
+  opacity: .55 !important;
+  transition: color .55s ease, filter .55s ease, opacity .55s ease, transform .65s cubic-bezier(.2,.75,.2,1) !important;
+}
+.archive-title-item::before { color: #ed0808 !important; width: 42px !important; font-size: 13px !important; }
+.archive-title-item.is-active {
+  color: #fff !important;
+  filter: blur(0) !important;
+  opacity: 1 !important;
+  transform: translateX(14px) scale(1.035) !important;
+}
+.archive-card-column { position: relative !important; width: 100% !important; height: 100% !important; min-width: 0 !important; perspective: 1400px !important; }
+.archive-entry {
+  position: absolute !important;
+  inset: 0 !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+}
+.archive-entry .video-card {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  max-height: 72vh !important;
+  border: 1px solid rgba(255,255,255,.22) !important;
+  background: #080808 !important;
+  opacity: 0 !important;
+  filter: blur(12px) brightness(.55) !important;
+  transform: translateY(4vh) scale(.72) !important;
+  transition: opacity .65s ease, filter .75s ease, transform .85s cubic-bezier(.16,1,.3,1) !important;
+  pointer-events: none !important;
+}
+.archive-entry.is-active { pointer-events: auto !important; }
+.archive-entry.is-active .video-card {
+  opacity: 1 !important;
+  filter: blur(0) brightness(1) !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+.archive-entry .project-info h3 { color: #fff !important; font-size: clamp(18px, 2vw, 28px) !important; }
+.archive-entry .project-info p { color: rgba(255,255,255,.78) !important; }
+@media (max-width: 760px) {
+  main > .work-scroll { height: calc(var(--archive-count, 1) * 100svh) !important; overflow: clip !important; }
+  main > .work-scroll .work-sticky { height: 100svh !important; padding: 7vh 0 3vh !important; }
+  main > .work-scroll .work-heading { margin: 0 6vw 2vh !important; }
+  main > .work-scroll .work-heading h2 { font-size: clamp(42px, 12vw, 76px) !important; }
+  .archive-stage { width: 88vw !important; height: 78svh !important; display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: minmax(0, .7fr) minmax(0, 1.3fr) !important; gap: 1vh !important; }
+  .archive-title-rail { height: 100% !important; padding: 0 0 1vh !important; gap: 8px !important; overflow: hidden !important; }
+  .archive-title-item { font-size: clamp(18px, 5vw, 28px) !important; }
+  .archive-title-item::before { width: 30px !important; }
+  .archive-card-column { height: 100% !important; }
+  .archive-entry .video-card { max-height: 48svh !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-title-item, .archive-entry .video-card { transition: none !important; }
+}
+
 </style>
 </head>
 
@@ -4578,7 +4705,7 @@ main > .work-scroll .project-info { z-index: 4; }
       <div class="section-heading work-heading">
         <div>
           <p class="section-kicker">002 — SELECTED WORK</p>
-          <h2>THE ARCHIVE</h2>
+          <h2>THE ARCHIVE BACK</h2>
         </div>
         <p>A COLLECTION OF<br>VISUAL EXPERIMENTS</p>
       </div>
@@ -5392,8 +5519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 <script>
-/* Build the title-led archive from the existing video cards.
-   Keeps the existing YouTube preview, modal, and custom cursor handlers intact. */
+/* Scroll-stepped title-led archive: each viewport scroll advances to the next project. */
 (() => {
   const section = document.querySelector('#works.work-scroll');
   const track = section && section.querySelector('.work-track');
@@ -5412,7 +5538,6 @@ document.addEventListener("DOMContentLoaded", function () {
   cards.forEach((card, index) => {
     const titleNode = card.querySelector('.project-info h3');
     const title = (card.dataset.title || (titleNode && titleNode.textContent) || `Project ${index + 1}`).trim();
-    // Keep card title and modal title in sync with the visible archive heading.
     card.dataset.title = title;
     if (titleNode) titleNode.textContent = title;
     card.setAttribute('aria-label', `Play ${title}`);
@@ -5424,12 +5549,12 @@ document.addEventListener("DOMContentLoaded", function () {
     navItem.dataset.number = String(index + 1).padStart(2, '0');
     navItem.textContent = title;
     navItem.addEventListener('click', () => {
-      const target = column.querySelector(`[data-archive-index="${index}"]`);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const top = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + index * window.innerHeight, behavior: 'smooth' });
     });
     rail.appendChild(navItem);
 
-    const entry = document.createElement('section');
+    const entry = document.createElement('div');
     entry.className = 'archive-entry';
     entry.dataset.archiveIndex = String(index);
     entry.appendChild(card);
@@ -5438,25 +5563,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
   track.replaceWith(stage);
   stage.append(rail, column);
+  section.style.setProperty('--archive-count', cards.length);
+  section.style.height = `${cards.length * 100}vh`;
 
   const navItems = Array.from(rail.children);
   const entries = Array.from(column.children);
+  let activeIndex = -1;
   const setActive = (index) => {
+    index = Math.max(0, Math.min(cards.length - 1, index));
+    if (index === activeIndex) return;
+    activeIndex = index;
     navItems.forEach((item, i) => item.classList.toggle('is-active', i === index));
     entries.forEach((entry, i) => entry.classList.toggle('is-active', i === index));
-    const active = navItems[index];
-    if (active && window.matchMedia('(max-width: 760px)').matches) {
-      active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
   };
-  const observer = new IntersectionObserver((observations) => {
-    const visible = observations
-      .filter(item => item.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-    if (visible.length) setActive(Number(visible[0].target.dataset.archiveIndex));
-  }, { root: null, rootMargin: '-32% 0px -32% 0px', threshold: [0, .15, .3, .5, .7] });
-  entries.forEach(entry => observer.observe(entry));
+  let ticking = false;
+  const update = () => {
+    const top = section.getBoundingClientRect().top + window.scrollY;
+    const progress = Math.max(0, window.scrollY - top);
+    setActive(Math.floor(progress / Math.max(1, window.innerHeight)));
+    ticking = false;
+  };
+  const onScroll = () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    section.style.height = `${cards.length * 100}vh`;
+    update();
+  });
   setActive(0);
+  update();
 })();
 </script>
 
